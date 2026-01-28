@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Trust Blue Pharma Tech Palette - Option 1 */
+  --background: hsl(210, 20%, 98%); /* #F8FAFC - Slate 50 */
+  --foreground: hsl(215, 33%, 17%); /* #1E293B - Slate 800 */
+  --muted: hsl(210, 40%, 96%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(215, 33%, 17%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(215, 33%, 17%);
+  --border: hsl(210, 40%, 90%);
+  --input: hsl(210, 40%, 90%);
+  --primary: hsl(210, 100%, 40%); /* #0066CC - Trust Blue */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(210, 100%, 30%); /* #004499 - Deep Blue */
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(197, 100%, 44%); /* #00A3E0 - Cyan Accent */
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%); /* #EF4444 - Error Red */
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --success: hsl(160, 84%, 39%); /* #10B981 - Success Green */
+  --warning: hsl(38, 92%, 50%); /* #F59E0B - Warning Amber */
+  --ring: hsl(210, 100%, 40%);
+  --radius: 0.75rem;
+  --sidebar-background: hsl(0, 0%, 100%);
+  --sidebar-foreground: hsl(215, 33%, 17%);
+  --sidebar-primary: hsl(210, 100%, 40%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(197, 100%, 44%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(210, 40%, 90%);
+  --sidebar-ring: hsl(210, 100%, 40%);
+
+  /* Theme configurator variables */
+  --theme-primary: var(--primary);
+  --theme-primary-foreground: var(--primary-foreground);
+  --theme-secondary: var(--secondary);
+  --theme-secondary-foreground: var(--secondary-foreground);
+  --theme-radius: var(--radius);
+  --theme-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --theme-font-size-base: 14px;
+  --theme-font-weight-normal: 400;
+  --theme-font-weight-medium: 500;
+  --theme-font-weight-semibold: 600;
+  --theme-font-weight-bold: 700;
+}
+
+.dark {
+  /* Trust Blue Pharma Tech Palette - Dark Mode */
+  --background: hsl(215, 28%, 8%);
+  --foreground: hsl(210, 20%, 98%);
+  --muted: hsl(215, 20%, 15%);
+  --muted-foreground: hsl(210, 10%, 65%);
+  --popover: hsl(215, 28%, 8%);
+  --popover-foreground: hsl(210, 20%, 98%);
+  --card: hsl(215, 28%, 10%);
+  --card-foreground: hsl(210, 20%, 98%);
+  --border: hsl(215, 20%, 20%);
+  --input: hsl(215, 20%, 20%);
+  --primary: hsl(210, 100%, 50%); /* Lighter blue for dark mode */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(210, 100%, 35%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(197, 100%, 50%); /* Lighter cyan for dark mode */
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 65%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --success: hsl(160, 84%, 45%);
+  --warning: hsl(38, 92%, 55%);
+  --ring: hsl(210, 100%, 50%);
+  --radius: 0.5rem;
+  --sidebar-background: hsl(215, 28%, 8%);
+  --sidebar-foreground: hsl(210, 20%, 98%);
+  --sidebar-primary: hsl(210, 100%, 50%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(197, 100%, 50%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(215, 20%, 20%);
+  --sidebar-ring: hsl(210, 100%, 50%);
+
+  /* Theme configurator variables for dark mode */
+  --theme-primary: var(--primary);
+  --theme-primary-foreground: var(--primary-foreground);
+  --theme-secondary: var(--secondary);
+  --theme-secondary-foreground: var(--secondary-foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Grain texture overlay */
+.grain-texture {
+  position: relative;
+}
+
+/* 
+Texture Background - You can modify these values:
+- opacity: Overall texture visibility (0.14)
+- mix-blend-mode: How texture blends with background (overlay)
+- background-size: Size of the texture pattern (cover for full coverage)
+- background-position: Position of the texture (center)
+*/
+
+.grain-texture::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.08;
+  z-index: 1;
+  background: url("/images/texture-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
