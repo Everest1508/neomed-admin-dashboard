@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/store/hooks";
+import { getAuthHeaders } from "@/utils/auth";
 
 const API_BASE_URL = "http://localhost:9009/api";
 
@@ -46,20 +46,26 @@ function getUrlParams(): URLSearchParams {
 }
 
 export default function GmailCallback() {
-  const navigate = useNavigate();
-  const { getAuthHeaders } = useAuth();
+  const authHeaders = useAppSelector(getAuthHeaders);
+  const token = useAppSelector((state) => state.auth.token);
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Processing Gmail connection...');
 
   const exchangeCode = async (code: string, state: string | null) => {
     try {
+      if (!token) {
+        setStatus('error');
+        setMessage('You are not signed in. Please sign in and try connecting Gmail again.');
+        return;
+      }
+
       setStatus('loading');
       setMessage('Saving Gmail tokens to database...');
       
       // Step 1: Exchange code and save tokens to database
       const response = await fetch(`${API_BASE_URL}/gmail/oauth2callback/`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: authHeaders,
         body: JSON.stringify({ code, state }),
       });
 

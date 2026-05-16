@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAppDispatch } from "@/store/hooks";
+import { signup as signupThunk } from "@/store/slices/authSlice";
 import { useToast } from "@/hooks/use-toast";
 
 export default function SignUp() {
@@ -20,7 +21,7 @@ export default function SignUp() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { signup } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -41,18 +42,25 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const success = await signup(formData.username, formData.email, formData.password);
-      if (success) {
+      const result = await dispatch(
+        signupThunk({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+
+      if (signupThunk.fulfilled.match(result)) {
         toast({
           title: "Success",
           description: "Account created successfully!",
         });
         navigate("/", { replace: true });
       } else {
-        setError("Failed to create account. Username or email may already exist.");
+        setError(result.error.message || "Failed to create account. Username or email may already exist.");
         toast({
           title: "Error",
-          description: "Failed to create account",
+          description: result.error.message || "Failed to create account",
           variant: "destructive",
         });
       }
